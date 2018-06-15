@@ -4,6 +4,8 @@ import (
 	"log"
 	"net/http"
 	"os"
+
+	"github.com/rs/cors"
 )
 
 func main() {
@@ -17,8 +19,10 @@ func main() {
 	}
 
 	fs := http.FileServer(http.Dir(static))
-	http.Handle("/", fs)
+	mux := http.NewServeMux()
+	mux.Handle("/", fs)
 
+	handler := cors.Default().Handler(mux)
 	log.Printf("Listening at %v...\n", port)
-	http.ListenAndServe(port, nil)
+	http.ListenAndServe(port, handler)
 }

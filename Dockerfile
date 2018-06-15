@@ -3,6 +3,9 @@ FROM golang:1.10 as builder
 # setup the working directory
 WORKDIR /go/src/app
 
+# dependencies
+RUN go get github.com/rs/cors
+
 # add source code
 ADD src src
 
