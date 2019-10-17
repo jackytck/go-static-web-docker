@@ -24,6 +24,7 @@ _testmain.go
 *.exe
 *.test
 *.prof
+main
 
 # Environment variables
 .env*

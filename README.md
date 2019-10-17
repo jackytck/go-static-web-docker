@@ -6,6 +6,7 @@ A very simple container in go for hosting static local files.
 # .env
 STATIC_DIR=static
 PORT=:3000
+LIST_DIR=false
 ```
 
 ```bash
@@ -23,12 +24,13 @@ static-server:
   user: "${UID}:${GID}"
   environment:
     - PORT=:8090
+    - LIST_DIR=false
   restart: always
   volumes:
     - /etc/group:/etc/group:ro
     - /etc/passwd:/etc/passwd:ro
     - /home/jacky/static:/root/static
-    
+
 # export UID=$UID
 # export GID=$GID
 # docker-compose up -d
