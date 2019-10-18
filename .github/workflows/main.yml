@@ -1,0 +1,33 @@
+name: CI
+
+on: [push]
+
+jobs:
+  build:
+    name: Build and publish
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@master
+
+      - name: Build
+        uses: actions/docker/cli@master
+        with:
+          args: build -t go-static-web-docker .
+
+      - name: Docker login
+        uses: actions/docker/login@master
+        env:
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+
+      - name: Docker tag
+        uses: actions/docker/cli@master
+        with:
+          args: tag go-static-web-docker jackytck/go-static-web-docker:v0.0.1
+
+      - name: Docker push
+        uses: actions/docker/cli@master
+        with:
+          args: push jackytck/go-static-web-docker:v0.0.1
