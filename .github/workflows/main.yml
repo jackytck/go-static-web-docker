@@ -12,22 +12,16 @@ jobs:
         uses: actions/checkout@master
 
       - name: Build
-        uses: actions/docker/cli@master
-        with:
-          args: build -t go-static-web-docker .
+        run: docker build -t go-static-web-docker .
 
       - name: Docker login
-        uses: actions/docker/login@master
+        run: docker login --username $DOCKER_USERNAME --password $DOCKER_PASSWORD
         env:
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
 
       - name: Docker tag
-        uses: actions/docker/cli@master
-        with:
-          args: tag go-static-web-docker jackytck/go-static-web-docker:v0.0.1
+        run: docker tag go-static-web-docker jackytck/go-static-web-docker:v0.0.1
 
       - name: Docker push
-        uses: actions/docker/cli@master
-        with:
-          args: push jackytck/go-static-web-docker:v0.0.1
+        run: docker push jackytck/go-static-web-docker:v0.0.1
